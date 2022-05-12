@@ -207,13 +207,13 @@ export const form = async (req, res) => {
       return;
     }
     // const time = moment(internshipTime).format();
+    let plusDay = moment(internshipTime).add(1, "days");
     const update = {
-      internshipTime: internshipTime,
+      internshipTime: plusDay,
       form: form,
       report: null,
       statusCheck: 4,
     };
-
     if (findStudent.support === 1) {
       update.nameCompany = nameCompany;
     }

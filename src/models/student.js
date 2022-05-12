@@ -85,6 +85,10 @@ const studentSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    internshipPosition: {
+      type: String,
+      default: null,
+    },
     //cong ty
     nameCompany: {
       type: String,
@@ -123,9 +127,9 @@ const studentSchema = mongoose.Schema(
       type: Number,
       default: null,
     },
-    note:{
+    note: {
       type: String,
-      default: null
+      default: null,
     },
     resultScore: {
       type: Number,
