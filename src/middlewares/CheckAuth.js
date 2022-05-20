@@ -9,11 +9,12 @@ export const isAuthenticateUser = async (req, res, next) => {
   try {
     const authHeader = req.header("Authorization");
     const accessToken = authHeader && authHeader.split(" ")[1];
+
     if (!accessToken) {
       return res.status(401).json({ message: "Vui lòng đăng nhập tài khoản" });
     }
     const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-    console.log(decoded);
+
     const manager = await Manager.findOne({
       _id: decoded.userId,
       campus_id: decoded.campusId,
