@@ -16,34 +16,38 @@ export const listStudent = async (req, res) => {
       }
       const skipNumber = (perPage - 1) * current;
       try {
-        await Student.find(req.query)
+        const listStudent = await Student.find(req.query)
           .populate("campus_id")
           .populate("smester_id")
           .populate("business")
           .populate("majors")
           .skip(skipNumber)
           .limit(current)
-          .sort({ statusCheck: 1 })
-          .exec((err, doc) => {
-            if (err) {
-              return res.status(400).json(err);
-            } else {
-              Student.find(req.query)
-                .countDocuments({})
-                .exec((count_error, count) => {
-                  if (err) {
-                    res.json(count_error);
-                    return;
-                  } else {
-                    res.status(200).json({
-                      total: count,
-                      list: doc,
-                    });
-                    return;
-                  }
-                });
-            }
-          });
+          .sort({ statusCheck: 1 });
+        res.status(200).json({
+          total: listStudent.length,
+          list: listStudent,
+        });
+        // .exec((err, doc) => {
+        //   if (err) {
+        //     res.status(400).json(err);
+        //   } else {
+        //     const data =  Student.find(req.query)
+        //       .countDocuments({})
+        //       .exec((count_error, count) => {
+        //         if (err) {
+        //           res.json(count_error);
+        //           return;
+        //         } else {
+        //           res.status(200).json({
+        //             total: count,
+        //             list: doc,
+        //           });
+        //           return;
+        //         }
+        //       });
+        //   }
+        // });
       } catch (error) {
         res.status(400).json(error);
       }
@@ -68,7 +72,8 @@ export const listStudent = async (req, res) => {
 export const updateStudent = async (req, res) => {
   try {
     const student = await Student.findOneAndUpdate(
-      { id: req.params.id },
+      { _id: req.params.id },
+      req.body,
       { new: true }
     );
     return res.status(200).json(student);
