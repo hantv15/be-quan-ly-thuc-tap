@@ -26,7 +26,7 @@ export const listStudent = async (req, res) => {
           .sort({ statusCheck: 1 })
           .exec((err, doc) => {
             if (err) {
-              res.status(400).json(err);
+              return res.status(400).json(err);
             } else {
               Student.find(req.query)
                 .countDocuments({})
@@ -81,9 +81,9 @@ export const updateStudent = async (req, res) => {
 export const removeStudent = async (req, res) => {
   try {
     const student = await Student.findOneAndDelete({ id: req.params.id });
-    res.json(student);
+    return res.json(student);
   } catch (error) {
-    res.json("lỗi");
+    return res.json("Đang có lỗi sảy ra, vui lòng thử lại sau!");
   }
 };
 
@@ -95,7 +95,7 @@ export const readOneStudent = async (req, res) => {
     .populate("business")
     .populate("majors")
     .exec();
-  res.json(student);
+  return res.json(student);
 };
 
 export const readStudentById = async (req, res) => {
@@ -140,7 +140,12 @@ export const insertStudent = async (req, res) => {
         );
 
         await Student.updateMany(
-          { $and: [{ mssv: { $in: listNew } }, { smester_id, majors, campus_id }] },
+          {
+            $and: [
+              { mssv: { $in: listNew } },
+              { smester_id, majors, campus_id },
+            ],
+          },
           {
             $set: {
               checkUpdate: true,
@@ -165,7 +170,12 @@ export const insertStudent = async (req, res) => {
         await Student.insertMany(data);
 
         await Student.updateMany(
-          { $and: [{ mssv: { $nin: listMS } }, { smester_id, majors, campus_id }] },
+          {
+            $and: [
+              { mssv: { $nin: listMS } },
+              { smester_id, majors, campus_id },
+            ],
+          },
           {
             $set: {
               checkMulti: true,
@@ -296,18 +306,6 @@ export const updateStatusStudent = async (req, res) => {
   dataEmail.mail = newArr;
 
   try {
-    const data = await Student.updateMany(
-      {
-        _id: { $in: listIdStudents },
-      },
-      {
-        $set: {
-          statusCheck: status,
-          note: textNote,
-        },
-      },
-      { multi: true, new: true }
-    );
     const listStudentChangeStatus = await Student.find({
       _id: { $in: listIdStudent },
       statusCheck: status,
@@ -537,7 +535,7 @@ export const updateStatusStudent = async (req, res) => {
     }
     return res.json({ listStudentChangeStatus, status });
   } catch (error) {
-    res.json("Lỗi");
+    return res.json("Lỗi");
   }
 };
 

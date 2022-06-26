@@ -57,13 +57,11 @@ export const sendMail = async (data) => {
       subject: data.subject,
       html: data.content,
     };
-    transporter.sendMail(mainOptions, function (err, info) {
-      if (err) {
-        res.status(500).send({ message: "Có lỗi" });
+    transporter.sendMail(mainOptions, (error, success) => {
+      if (error) {
+        console.log(error);
       } else {
-        res
-          .status(200)
-          .send({ message: "Một email đã được gửi đến tài khoản của bạn" }); //Gửi thông báo đến người dùng
+        console.log(success);
       }
     });
   } catch (error) {

@@ -41,30 +41,28 @@ export const signUpCVForSupport = async (req, res) => {
 
     if (!check) {
       {
-        res.status(500).send({
+        return res.status(500).send({
           message: "Thời gian đăng ký đã hết!",
         });
       }
     }
 
     if (!findStudent) {
-      res.status(500).send({
+      return res.status(500).send({
         message: "Thông tin của bạn không tồn tại trên hệ thống!",
       });
-      return;
     }
     if (findStudent.statusCheck === 0) {
-      res.status(500).send({
+      return res.status(500).send({
         message: "Thông tin CV của bạn đã được đăng ký",
       });
-      return;
     }
 
     if (
       (findStudent.numberOfTime === 2 && findStudent.statusCheck === 1) ||
       (findStudent.numberOfTime === 2 && findStudent.statusCheck <= 3)
     ) {
-      res.status(500).send({
+      return res.status(500).send({
         message:
           "Tài khoạn của bạn đã vượt quá số lần đăng ký thông tin thực tập",
       });
@@ -94,11 +92,6 @@ export const signUpCVForSupport = async (req, res) => {
       business: business,
     };
 
-    // if (findStudent.statusCheck === 1 && findStudent.support === 0) {
-    //   return res
-    //     .status(500)
-    //     .send({ message: "Thông tin tự đăng ký người dùng không được sửa" });
-    // }
     if (findStudent.statusCheck === 1 && findStudent.support === 1) {
       //Ho tro
       update.note = null;
@@ -137,7 +130,7 @@ export const signUpCVForSupport = async (req, res) => {
       `;
       sendMail(dataEmail);
 
-      res
+      return res
         .status(200)
         .send({ message: "Sửa thông tin CV thành công!", support: support });
     }
@@ -177,14 +170,14 @@ export const signUpCVForSupport = async (req, res) => {
       </div>
       `;
       sendMail(dataEmail);
-      res
+      return res
         .status(200)
         .send({ message: "Đăng ký thông tin thành công!", support: support });
     }
 
     if (findStudent.statusCheck === 1 && findStudent.support === 0) {
       if (findStudent.numberOfTime >= 2) {
-        res.status(500).send({
+        return res.status(500).send({
           message: "Bạn đã vượt quá 2 lần cho phép sửa thông tin tự đăng ký!",
           support: support,
         });
@@ -228,7 +221,7 @@ export const signUpCVForSupport = async (req, res) => {
       `;
       sendMail(dataEmail);
 
-      res
+      return res
         .status(200)
         .send({ message: "Sửa thông tin CV thành công!", support: support });
     }
@@ -268,12 +261,12 @@ export const signUpCVForSupport = async (req, res) => {
       </div>
       `;
       sendMail(dataEmail);
-      res
+      return res
         .status(200)
         .send({ message: "Đăng ký thông tin thành công!", support: support });
     }
   } catch (error) {
-    res.status(500).send({
+    return res.status(500).send({
       message: "Đã xảy ra lỗi! Đăng ký lại sau ít phút!",
     });
   }

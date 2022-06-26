@@ -27,7 +27,7 @@ export const report = async (req, res) => {
     const dataEmail = {};
     if (!check) {
       {
-        res.status(500).send({
+        return res.status(500).send({
           message: "Thời gian đăng ký đã hết!",
         });
       }
@@ -83,7 +83,7 @@ export const report = async (req, res) => {
         status: false,
         message: "Thông tin biên bản đã tồn tại và đang chờ xác nhận!",
       };
-      res.status(500).send(err);
+      return res.status(500).send(err);
       return;
     }
 
@@ -122,7 +122,7 @@ export const report = async (req, res) => {
       </div>
       `;
       sendMail(dataEmail);
-      res.status(200).send({ message: "Sửa báo cáo thành công" });
+      return res.status(200).send({ message: "Sửa báo cáo thành công" });
     }
 
     if (findStudent.statusCheck === 6) {
@@ -159,10 +159,10 @@ export const report = async (req, res) => {
       </div>
       `;
       sendMail(dataEmail);
-      res.status(200).send({ message: "Nộp báo cáo thành công" });
+      return res.status(200).send({ message: "Nộp báo cáo thành công" });
     }
   } catch (error) {
-    res.status(500).send({
+    return res.status(500).send({
       message: "Đã xảy ra lỗi! Vui lòng kiểm tra lại thông tin biên bản!",
     });
   }
@@ -191,33 +191,29 @@ export const form = async (req, res) => {
         status: false,
         message: "Đã xảy ra lỗi! Vui lòng đăng ký lại!",
       };
-      res.status(404).send(err);
+      return res.status(404).send(err);
     }
     if (findStudent.statusCheck === 0 && findStudent.form !== null) {
       const err = {
         status: false,
         message: "CV phải được duyệt trước khi nộp biên bản!",
       };
-      res.status(500).send(err);
-      return;
+      return res.status(500).send(err);
     }
 
     if (findStudent.statusCheck === 3) {
       const err = {
         message: "CV của bạn trượt không đủ điều kiện nộp báo cáo!",
       };
-      res.status(500).send(err);
-      return;
+      return res.status(500).send(err);
     }
 
     if (findStudent.statusCheck === 0 && findStudent.form) {
       const err = {
         message: "Biên bản của bạn đang được kiểm tra !",
       };
-      res.status(500).send(err);
-      return;
+      return res.status(500).send(err);
     }
-    // const time = moment(internshipTime).format();
     const update = {
       internshipTime: internshipTime,
       form: form,
@@ -266,7 +262,7 @@ export const form = async (req, res) => {
       `;
       sendMail(dataEmail);
 
-      res.status(200).send({ message: "Sửa biên bản thành công" });
+      return res.status(200).send({ message: "Sửa biên bản thành công" });
     }
     if (findStudent.statusCheck === 2) {
       await Student.findOneAndUpdate(filter, update, {
@@ -302,10 +298,10 @@ export const form = async (req, res) => {
       </div>
       `;
       sendMail(dataEmail);
-      res.status(200).send({ message: "Nộp biên bản thành công" });
+      return res.status(200).send({ message: "Nộp biên bản thành công" });
     }
   } catch (error) {
-    res
+    return res
       .status(500)
       .send({ message: "Có lỗi xảy ra! Vui lòng quay lại sau ít phút" });
   }
