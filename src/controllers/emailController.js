@@ -57,14 +57,12 @@ export const sendMail = async (req, res) => {
       html: req.content,
     };
     transporter.sendMail(mainOptions, function (error, succes) {
-      if (error) {
-        console.log("Wrong", error);
-        return res
-          .status(500)
-          .send({ message: "Có lỗi xảy ra, không gửi được email" });
-      } else {
-        console.log("Success", succes);
+      try {
         return res.status(200).send({ message: "Gửi email thành công" });
+      } catch (error) {
+        res
+          .status(500)
+          .json({ message: "Có lỗi xảy ra, không gửi được email" });
       }
     });
   } catch (error) {

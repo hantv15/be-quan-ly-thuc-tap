@@ -19,6 +19,9 @@ export const signUpCVForSupport = async (req, res) => {
     business,
   } = req.body;
 
+  console.log("new data", req.body);
+
+  // console.log("header name: ", req.get(headerName));
   try {
     const ms = req.body.user_code.toLowerCase();
     const dataEmail = {};
@@ -133,7 +136,6 @@ export const signUpCVForSupport = async (req, res) => {
       await Student.findOneAndUpdate(filter, update, {
         new: true,
       });
-
       dataEmail.mail = email;
       dataEmail.subject = "Đăng ký hỗ trợ thực tập thành công";
       dataEmail.content = `
