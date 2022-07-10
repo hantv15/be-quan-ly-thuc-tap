@@ -19,8 +19,6 @@ export const signUpCVForSupport = async (req, res) => {
     business,
   } = req.body;
 
-  console.log("new data", req.body);
-
   // console.log("header name: ", req.get(headerName));
   try {
     const ms = req.body.user_code.toLowerCase();
