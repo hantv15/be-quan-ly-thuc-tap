@@ -19,7 +19,6 @@ export const signUpCVForSupport = async (req, res) => {
     business,
   } = req.body;
 
-  // console.log("header name: ", req.get(headerName));
   try {
     const ms = req.body.user_code.toLowerCase();
     const dataEmail = {};
@@ -28,7 +27,6 @@ export const signUpCVForSupport = async (req, res) => {
       mssv: ms,
       email: email,
     });
-    // console.log()
     const filter = {
       mssv: ms,
       email: email,

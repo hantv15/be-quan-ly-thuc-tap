@@ -33,7 +33,6 @@ export const sendMailUser = async (req, res) => {
 };
 
 export const sendMail = async (req, res) => {
-  console.log("req.body: ", req);
   try {
     let mainOptions = {
       from: '"Phòng QHDN" <foo@example.com>',
