@@ -1,26 +1,11 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
-const transporter = nodemailer.createTransport({
-  host: process.env.HOST_EMAIL,
-  port: process.env.PORT_EMAIL,
-  secure: true,
+let transporter = nodemailer.createTransport({
+  service: "gmail",
   auth: {
-    type: "OAuth2",
-    user: process.env.USER_EMAIL,
-    clientId: process.env.MAIL_CLIENT_ID,
-    clientSecret: process.env.MAIL_CLIENT_SECRET,
-    refreshToken: process.env.MAIL_REFESH_TOKEN,
-    accessToken: process.env.MAIL_ACCESS_TOKEN,
+    user: "hantvnodemailer@gmail.com",
+    pass: "imsrgztckjtimpiq",
   },
-});
-
-console.log({
-  type: "OAuth2",
-  user: process.env.USER_EMAIL,
-  clientId: process.env.MAIL_CLIENT_ID,
-  clientSecret: process.env.MAIL_CLIENT_SECRET,
-  refreshToken: process.env.MAIL_REFESH_TOKEN,
-  accessToken: process.env.MAIL_ACCESS_TOKEN,
 });
 
 export const sendMailUser = async (req, res) => {
