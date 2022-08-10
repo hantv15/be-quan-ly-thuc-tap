@@ -163,6 +163,41 @@ export const listReviewForm = async (req, res) => {
     } catch (error) {
       res.status(400).json(error);
     }
+  } else {
+    try {
+      await Student.find({
+        $and: [req.query, { statusCheck: { $in: [2, 4, 5] } }],
+      })
+        .populate("campus_id")
+        .populate("smester_id")
+        .populate('business')
+        .populate("majors")
+        .sort({ createdAt: -1, CV: -1 })
+        .exec((err, doc) => {
+          if (err) {
+            res.status(400).json(err);
+          } else {
+            Student.find({
+              statusCheck: { $in: [2, 4, 5] },
+            })
+              .countDocuments({})
+              .exec((count_error, count) => {
+                if (err) {
+                  res.json(count_error);
+                  return;
+                } else {
+                  res.status(200).json({
+                    total: count,
+                    list: doc,
+                  });
+                  return;
+                }
+              });
+          }
+        });
+    } catch (error) {
+      res.status(400).json(error);
+    }
   }
 };
 export const reviewReport = async (req, res) => {

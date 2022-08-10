@@ -19,7 +19,7 @@ export const signUpCVForSupport = async (req, res) => {
     business,
     _id
   } = req.body;
-
+  console.log("req.body: ", req.body);
   try {
     const ms = req.body.user_code.toLowerCase();
     const dataEmail = {};
@@ -47,15 +47,16 @@ export const signUpCVForSupport = async (req, res) => {
       return;
     }
 
-    if (
-      (findStudent.numberOfTime === 2 && findStudent.statusCheck === 1) ||
-      (findStudent.numberOfTime === 2 && findStudent.statusCheck <= 3)
-    ) {
-      res.status(500).send({
-        message:
-          "Tài khoạn của bạn đã vượt quá số lần đăng ký thông tin thực tập",
-      });
-    }
+    // logic check giới hạn số lần hỗ trợ đăng ký
+    // if (
+    //   (findStudent.numberOfTime === 2 && findStudent.statusCheck === 1) ||
+    //   (findStudent.numberOfTime === 2 && findStudent.statusCheck <= 3)
+    // ) {
+    //   res.status(500).send({
+    //     message:
+    //       "Tài khoản của bạn đã vượt quá số lần đăng ký thông tin thực tập",
+    //   });
+    // }
 
     let isSupport = 0;
     support === 1 ? (isSupport = 0) : (isSupport = 2);
@@ -89,6 +90,7 @@ export const signUpCVForSupport = async (req, res) => {
     if (findStudent.statusCheck === 1 && findStudent.support === 1) {
       //Ho tro
       update.note = null;
+      update.numberOfTime = findStudent.numberOfTime + 1;
       const rptest = await Student.findOneAndUpdate(filter, update, {
         new: true,
       });
@@ -132,6 +134,7 @@ export const signUpCVForSupport = async (req, res) => {
     }
 
     if (findStudent.statusCheck === 10 && support === 1) {
+      update.numberOfTime = findStudent.numberOfTime + 1;
       await Student.findOneAndUpdate(filter, update, {
         new: true,
       });

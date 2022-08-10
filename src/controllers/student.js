@@ -312,6 +312,7 @@ export const updateBusinessStudent = async (req, res) => {
 //updateStatusStudent
 export const updateStatusStudent = async (req, res) => {
   const { listIdStudent, status, listEmailStudent, textNote } = req.body;
+
   const dataEmail = {};
   const hostname = req.get("host");
   const listIdStudents = await listIdStudent.map((id) => ObjectId(id));
@@ -341,7 +342,6 @@ export const updateStatusStudent = async (req, res) => {
       statusCheck: status,
       note: textNote,
     });
-
     if (status === 1) {
       dataEmail.subject = "Thông báo sửa CV thực tập doanh nghiệp";
       dataEmail.content = `
