@@ -19,7 +19,10 @@ export const signUpCVForSupport = async (req, res) => {
     business,
     _id
   } = req.body;
+<<<<<<< HEAD
   console.log("req.body: ", req.body);
+=======
+>>>>>>> main
   try {
     const ms = req.body.user_code.toLowerCase();
     const dataEmail = {};
@@ -274,6 +277,7 @@ export const signUpCVForSupport = async (req, res) => {
         .send({ message: "Đăng ký thông tin thành công!", support: support });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).send({
       message: "Đã xảy ra lỗi! Đăng ký lại sau ít phút!",
     });
