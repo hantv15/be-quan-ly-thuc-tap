@@ -19,10 +19,7 @@ export const signUpCVForSupport = async (req, res) => {
     business,
     _id
   } = req.body;
-<<<<<<< HEAD
-  console.log("req.body: ", req.body);
-=======
->>>>>>> main
+
   try {
     const ms = req.body.user_code.toLowerCase();
     const dataEmail = {};
