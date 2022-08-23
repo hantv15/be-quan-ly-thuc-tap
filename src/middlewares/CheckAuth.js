@@ -41,6 +41,7 @@ export const isAuthenticateUser = async (req, res, next) => {
 };
 
 export const authorizeRoles = (roles) => {
+  console.log("roles: ", roles);
   return (req, res, next) => {
     if (!roles.includes(req.role)) {
       return res.status(403).json({

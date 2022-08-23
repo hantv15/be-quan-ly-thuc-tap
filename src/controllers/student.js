@@ -7,6 +7,7 @@ const ObjectId = require("mongodb").ObjectID;
 
 //listStudent
 export const listStudent = async (req, res) => {
+  console.log("req.query", req.query);
   const { limit, page } = req.query;
   const { smester_id } = req.query;
   if (!smester_id || smester_id === "") {
