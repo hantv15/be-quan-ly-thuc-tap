@@ -8,6 +8,7 @@ require("dotenv").config();
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yamljs");
 const app = express();
+global.__basedir = __dirname;
 // database
 mongoose
   .connect(process.env.DATABASE)
@@ -28,7 +29,7 @@ const swaggerDocument = YAML.load("./src/docs/swagger_datn.yaml");
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use("*", (req, res) => {
+app.use("/", (req, res) => {
   res.redirect("/api-docs");
 });
 
